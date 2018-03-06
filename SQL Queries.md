@@ -127,9 +127,13 @@ How could we select all movies that start with 'Se' and end with 'en' and have e
 `SELECT * FROM movies WHERE name LIKE 'Se_en';`
 
 1. `LIKE` is a special operator used with the WHERE clause to search for a specific pattern in a column.
+
 2.`name LIKE 'Se_en'` is a condition evaluating the name column for a specific pattern.
+
 3. `Se_en` represents a pattern with a wildcard character. The _ means you can substitute any individual character here without breaking the pattern. The names Seven and Se7enboth match this pattern.
+
 Instructions
+
 1.
 Let's test it out.
 In the code editor, type:
@@ -164,8 +168,11 @@ Unknown values are indicated by `NULL`.
 
 It is not possible to test for `NULL` values with comparison operators, such as `=` and `!=`.
 Instead, we will have to use these operators:
+
 •	`IS NULL`
+
 •	`IS NOT NULL`
+
 To filter for all movies with an IMDb rating:
 
 `SELECT name FROM movies WHERE imdb_rating IS NOT NULL;`
@@ -182,6 +189,7 @@ SELECT name FROM movies WHERE imdb_rating IS NULL;
 ### Between
 The `BETWEEN` operator can be used in a `WHERE` clause to filter the result set within a certain range. The values can be numbers, text or dates.
 This statement filters the result set to only include movies with names that begin with letters 'A' up to but not including 'J'.
+
 `SELECT * FROM movies WHERE name BETWEEN 'A' AND 'J';`
 
 Here is another one:
@@ -190,7 +198,9 @@ Here is another one:
 
 In this statement, the `BETWEEN` operator is being used to filter the result set to only include movies with years between 1990 up to and including 1999.
 Really interesting point to emphasize again:
+
 •	`BETWEEN` two letters is **not inclusive.**
+
 •	`BETWEEN` two numbers **is inclusive.**
 
 Instructions
@@ -198,7 +208,8 @@ Instructions
 Using the `BETWEEN` operator, write a query that selects all rows where the movie titles that begin with letters 'D' up to but not including 'G'.
 
 ### And
-Sometimes we want to combine multiple conditions in a `WHER`E clause to make the result set more specific and useful.
+
+Sometimes we want to combine multiple conditions in a `WHERE` clause to make the result set more specific and useful.
 
 One way of doing this is to use the `AND` operator. Here, we use the `AND` operator to only return 90's romance movies.
 `SELECT * FROM movies WHERE year BETWEEN 1990 AND 1999 AND genre = 'romance';`
