@@ -254,6 +254,123 @@ Let's test this out:
 `SELECT * FROM movies WHERE year > 2014 OR genre = 'action';`
 
 
+### Order By
 
+That's it with `WHERE` and its operators. Moving on!
+
+It is often useful to list the data in our result set in a particular order.
+We can sort the results using `ORDER BY`, either alphabetically or numerically. Sorting the results often makes the data more useful and easier to analyze.
+For example, if we want to sort everything by the movie's title from A through Z:
+```
+SELECT * FROM movies 
+ORDER BY name;
+```
+
+•	`ORDER BY` is a clause that indicates you want to sort the result set by a particular column.
+
+•	`name` is the specified column.
+
+Sometimes we want to sort things in a *decreasing order*. For example, if we want to select all of the well-received movies, sorted from highest to lowest by their year:
+```
+SELECT * FROM movies 
+WHERE imdb_rating > 8 
+ORDER BY year DESC;
+```
+•	`DESC` is a keyword used in ORDER BY to sort the results in *descending order* (high to low or Z-A).
+
+o	E.g. `ORDER BY name DESC`
+
+•	ASC is a keyword used in ORDER BY to sort the results in *ascending order* (low to high or A-Z).
+
+o	E.g. `ORDER BY name ASC`
+
+The column that we `ORDER BY` doesn't even have to be one of the columns that we're displaying.
+`ORDER BY` **always goes after** `WHERE`!
+
+Instructions
+1.
+Suppose we want to retrieve the name and yearcolumns of all the movies, ordered by their name alphabetically.
+Type the following code:
+```
+SELECT name, year 
+FROM movies 
+ORDER BY name;
+```
+
+2.
+Your turn!
+Write a new query that retrieves the name, year, and imdb_rating columns of all the movies, ordered highest to lowest by their ratings.
+
+```
+SELECT name, year, imdb_rating 
+FROM movies 
+ORDER BY imdb_rating DESC;
+```
+
+### Limit
+
+We've been working with a fairly small table (230 rows), but most SQL tables contain hundreds of thousands of records. In those situations, it becomes important to cap the number of rows in the result.
+For instance, imagine that we just want to see a few examples of records.
+```
+SELECT * FROM movies LIMIT 5;
+```
+`LIMIT` is a clause that lets you specify the maximum number of rows the result set will have. This saves space on our screen and makes our queries run faster.
+Here, we specify that the result set can't have more than five rows.
+`LIMIT` always goes at the **very end**.
+
+1.
+Combining your knowledge of `LIMIT` and `ORDER BY`, write a query that returns the top three highest rated movies.
+
+```
+select * from movies order by imdb_rating DESC limit 3;
+```
+
+### Case
+A `CASE` statement allows us to create different outputs (usually in the SELECT statement). It is SQL's way of handling if/then logic.
+Suppose we want to condense the ratings in movies to just 'Good', 'Okay', and 'Bad':
+```
+SELECT name, 
+      CASE 
+	WHEN imdb_rating > 7 THEN 'Good' 
+	WHEN imdb_rating > 5 THEN 'Okay' 
+	ELSE 'Bad' 
+      END 
+FROM movies;
+```
+
+•	Each `WHEN` tests a condition.
+•	The following `THEN` gives us the string if the condition is true.
+•	`CASE` statement **must end with** `END`.
+•	The `ELSE` gives us the string if all the above WHEN clauses evaluate to false.
+Here, we set all movies above 7 as 'Good', movies above 5 as 'Okay', and the rest as 'Bad'.
+Instructions
+1.
+Use a `CASE` statement to create a column called mood that is:
+
+•	fun if genre is romance
+
+
+•	fun if genre is comedy
+
+•	serious in all other cases
+
+### Review
+Congratulations!
+
+We just learned how to query data from a database using SQL. We also learned how to filter queries to make the information more specific and useful.
+
+Let's summarize what we've learned so far:
+
+•	`SELECT` is the clause we use **every time we want to query information from a database**.
+•	`AS` **renames a column or table**.
+•	`DISTINCT` return **unique values**.
+
+•	`WHERE` is a popular command that lets you **filter the results of the query** based on conditions that you specify.
+•	`LIKE` and `BETWEEN` are special operators.
+•	`AND` and `OR` **combines multiple conditions**.
+
+•	`ORDER BY` **sorts the result**. Use `DESC` to sort by *descending order* (after sorting variable) or use `ASC` to sort by *ascending order*
+•	`LIMIT` specifies the **maximum number of rows** that the query will return.
+•	`CASE` **creates different outputs**.
 
 
