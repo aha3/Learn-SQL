@@ -2,7 +2,7 @@
 
 ### CREATE 
 
-```
+```sql
 CREATE TABLE celebs (id INTEGER, 
 	name TEXT, age INTEGER);
  ```
@@ -20,7 +20,7 @@ You can use the `CREATE` statement anytime you want to create a new table from s
 Instructions
 1.
 Add a row to the table. In the code editor type
-```
+```sql
 INSERT INTO celebs (id, name, age) VALUES (1, 'Justin Bieber', 21);
 ```
 2. To view the row you just created, under the `INSERT` statement type
@@ -28,7 +28,7 @@ INSERT INTO celebs (id, name, age) VALUES (1, 'Justin Bieber', 21);
 
 ### INSERT
 
-```
+```sql
 INSERT INTO celebs (id, name, age) VALUES (1, 'Justin Bieber', 21);
 ```
 This `INSERT` statement inserts new rows into a table. You can use the INSERT statement when you want to add new records.
@@ -44,7 +44,7 @@ This `INSERT` statement inserts new rows into a table. You can use the INSERT st
 Instructions
 
 1. Add three more celebs to the table. In the code editor type:
-```
+```sql
 INSERT INTO celebs (id, name, age) VALUES (2, 'Beyonce Knowles', 33); 
 INSERT INTO celebs (id, name, age) VALUES (3, 'Jeremy Lin', 26); 
 INSERT INTO celebs (id, name, age) VALUES (4, 'Taylor Swift', 26);
@@ -71,7 +71,7 @@ You can also query data from all columns in a table with SELECT.
 
 1.	
 Now that you know how to add rows to the table, let's edit a row. In the code editor type
-```
+```sql
 UPDATE celebs SET age = 22 WHERE id = 1; 
 SELECT * FROM celebs;
 ```
@@ -92,7 +92,7 @@ You can use the `UPDATE` statement when you want to change existing records.
 Instructions
 
 1. Add a new column to the table. In the code editor type
-```
+```sql
 ALTER TABLE celebs ADD COLUMN twitter_handle TEXT; 
 SELECT * FROM celebs;
 ```
@@ -101,7 +101,7 @@ SELECT * FROM celebs;
 
 `ALTER TABLE celebs ADD COLUMN twitter_handle TEXT;`
 
-The `ALTER TABLE` statement added a new column to the table. You can use this command when you want to add columns to a table.
+The `ALTER TABLE` statement **added a new column to the table**. You can use this command when you want to add columns to a table.
 1. `ALTER TABLE` is a clause that lets you make the specified changes. 
 2. celebs is the name of the table that is being changed. 
 3. `ADD COLUMN` is a clause that lets you add a new column to a table. 
@@ -113,13 +113,13 @@ The `ALTER TABLE` statement added a new column to the table. You can use this co
 Instructions 
 
 1. Update the table to include Taylor Swift's twitter handle. In the code editor type:
-```
+```sql
 UPDATE celebs SET twitter_handle = '@taylorswift13' 
 WHERE id = 4; SELECT * FROM celebs;
 ```
 
 2. Delete all of the rows that have a `NULL` value in the twitter column. Replace your code in the code editor with the following:
-```
+```sql
 UPDATE celebs 
 SET twitter_handle = '@taylorswift13' 
 WHERE id = 4; 
@@ -134,7 +134,7 @@ SELECT * FROM celebs;
 
 `DELETE FROM celebs WHERE twitter_handle IS NULL;`
 
-The `DELETE FROM` statement deletes one or more rows from a table. You can use the statement when you want to delete existing records.
+The `DELETE FROM` statement **deletes one or more rows from a table**. You can use the statement when you want to delete existing records.
 1.	`DELETE FROM` is a clause that lets you delete rows from a table.
 2.	celebs is the name of the table we want to delete rows from.
 3.	`WHERE` is a clause that lets you select which rows you want to delete. Here we want to delete all of the rows where the twitter_handle column IS NULL.
@@ -143,7 +143,7 @@ The `DELETE FROM` statement deletes one or more rows from a table. You can use t
 Instructions
 
 1. Create a new table with constraints on the values. In the code editor type:
-```
+```sql
 CREATE TABLE awards ( 
 	id INTEGER PRIMARY KEY, 
 	recipient TEXT NOT NULL, 
@@ -152,7 +152,7 @@ CREATE TABLE awards (
 
 ### Constraints
 
-```
+```sql
 CREATE TABLE celebs ( 
 	id INTEGER PRIMARY KEY, 
 	name TEXT UNIQUE, 
@@ -169,10 +169,25 @@ Constraints that add information about how a column can be used are invoked afte
 3. `NOT NULL` columns must have a value. Attempts to insert a row without a value for a NOT NULL column will result in a constraint violation and the new row will not be inserted.
 4. `DEFAULT` columns take an additional argument that will be the assumed value for an inserted row if the new row does not specify a value for that column.
 
-Summary:
+## Summary
 
-In this lesson we have learned SQL statements that create, edit, and delete data. In the upcoming lessons we will learn how to use SQL to retrieve information from a database.
+In this lesson we have learned SQL statements that create, edit, and delete data. 
+In the upcoming lessons we will learn how to use SQL to retrieve information from a database.
 Let's summarize what we have learned so far.
+
+You've learned six commands commonly used to manage data stored in a relational database. What can we generalize so far?
+
+•	SQL is a programming language designed to manipulate and manage data stored in relational databases.
+
+o	A *relational database* is a database that organizes information into **one or more tables**.
+o	A **table** is a collection of *data organized into rows and columns*.
+•	A **statement** is a string of characters that the database recognizes as **a valid command**.
+o	`CREATE TABLE` **creates a new table.**
+o	`INSERT INTO` **adds a new row to a table.**
+o	`SELECT` **queries data from a table.**
+o	`UPDATE` **edits a row in a table.**
+o	`ALTER TABLE` **changes an existing table (columns).**
+o	`DELETE FROM` **deletes rows from a table**.
 
 
 
