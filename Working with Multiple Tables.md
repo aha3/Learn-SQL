@@ -255,11 +255,11 @@ Let's reexamine the orders table:
 
 order_id	customer_id	subscription_id	purchase date
 
-1	2	3	2017-01-01
+1		2		3		2017-01-01
 
-2	2	2	2017-01-01
+2		2		2		2017-01-01
 
-3	3	1	2017-01-01
+3		3		1		2017-01-01
 
 ```sql
 SELECT *
