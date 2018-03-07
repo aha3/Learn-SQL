@@ -102,7 +102,7 @@ SELECT AVG(downloads)
 FROM fake_apps;
 ```
 
-##Round
+## Round
 
 By default, SQL tries to be as precise as possible without rounding. We can make the result set easier to read using the `ROUND` function.
 `ROUND` function takes two arguments inside the parenthesis:
@@ -140,4 +140,166 @@ Write a new query that rounds this result to 2 decimal places.
 SELECT ROUND(AVG(price), 2)
  FROM fake_apps;
 ```
+
+## Group By I
+
+Oftentimes, we will want to calculate an aggregate for data with certain characteristics.
+For instance, we might want to know the mean IMDb ratings for all movies each year. 
+We could calculate each number by a series of queries with different WHERE statements, like so:
+```
+SELECT AVG(imdb_rating) 
+FROM movies 
+WHERE year = 1999; 
+
+SELECT AVG(imdb_rating) 
+FROM movies 
+WHERE year = 2000; 
+
+SELECT AVG(imdb_rating) 
+FROM movies 
+WHERE year = 2001;
+```
+and so on.
+
+Luckily, there's a **better way**!
+
+We can use `GROUP BY` to do this in a single step:
+```
+SELECT year, AVG(imdb_rating) 
+FROM movies 
+GROUP BY year 
+ORDER BY year;
+```
+
+`GROUP BY` is a clause in SQL that is used with aggregate functions. It is used in collaboration with the `SELECT` statement to arrange identical data into groups.
+The `GROUP BY` statement comes **after** any `WHERE` statements, but **before** ORDER BY **or** LIMIT.
+
+### Instructions
+1.
+Suppose we want to count the total number of apps for each price in the table.
+In the code editor, type:
+```
+SELECT price, COUNT(*) 
+FROM fake_apps 
+GROUP BY price;
+```
+Here, our aggregate function is `COUNT` and we arranged price into groups.
+
+2.
+In the previous query, add a `WHERE` clause to count the total number of apps that has been downloaded more than 20,000 times, at each price.
+```
+SELECT price, COUNT(*)
+FROM fake_apps
+WHERE downloads > 20000
+GROUP BY price;
+```
+3.
+Remove the previous query.
+Write a new query that calculates the total number of downloads for each category.
+```
+SELECT category, SUM(downloads)
+FROM fake_apps
+GROUP BY category;
+```
+## Group By II
+Sometimes, we want to `GROUP BY` a calculation done on a column.
+For instance, we might want to know how many movies have IMDb ratings that round to 1, 2, 3, 4, 5. 
+We could do this using the following syntax:
+```
+SELECT ROUND(imdb_rating), COUNT(name) 
+FROM movies 
+GROUP BY ROUND(imdb_rating) 
+ORDER BY ROUND(imdb_rating);
+```
+However, this query may be **time-consuming to write and more prone to error**.
+
+SQL lets us use column reference(s) in our GROUP BY that will make our lives easier.
+
+•	1 is the first column selected
+
+•	2 is the second column selected
+
+•	3 is the third column selected
+
+and so on.
+
+The following query is equivalent to the above:
+```
+SELECT ROUND(imdb_rating), COUNT(name) 
+FROM movies 
+GROUP BY 1 
+ORDER BY 1;
+```
+Here, the 1 refers to the first column in our `SELECT statement, ROUND(imdb_rating)`.
+
+### Instructions
+1.
+Suppose we have the query below:
+```
+SELECT category, price, AVG(downloads) 
+FROM fake_apps 
+GROUP BY category, price;
+```
+Write a new query that uses column reference numbers instead of column names after `GROUP BY`.
+
+## Having
+
+In addition to being able to group data using `GROUP BY`, SQL also allows you to **filter which groups to include and which to exclude**.
+
+For instance, imagine that we want to see how many movies of different genres were produced each year, but we only care about years and genres with at least 10 movies.
+
+We can't use `WHERE` here because we *don't want to filter the rows*; **we want to filter groups**.
+This is where `HAVING` comes in.
+`HAVING` is very similar to `WHERE`. In fact, all types of `WHERE` clauses you learned about thus far can be used with `HAVING`.
+We can use the following for the problem:
+```
+SELECT year, genre, COUNT(name) 
+FROM movies 
+GROUP BY 1, 2 
+HAVING COUNT(name) > 10
+```
+•	When we want to **limit the results of a query based on values of the individual rows**, we use `WHERE`.
+
+•	When we want to **limit the results of a query based on an aggregate property**, we use `HAVING`.
+
+`HAVING` statement always comes **after** `GROUP BY`, but **before** ORDER BY **and** LIMIT.
+
+1.
+Suppose we have the query below:
+```
+SELECT price, ROUND(AVG(downloads)) 
+FROM fake_apps 
+GROUP BY price;
+```
+Certain price points don't have very many apps, so the average is less meaningful.
+
+Add a `HAVING` clause to restrict the query to prices where the total number of apps at that *price point is greater than 9*.
+```
+SELECT price,
+	ROUND(AVG(downloads))
+ FROM fake_apps
+ GROUP BY price
+ HAVING COUNT(price) > 9;
+```
+## Review
+
+Congratulations!
+
+You just learned how to use aggregate functions to perform calculations on your data. What can we generalize so far? 
+
+•	`COUNT` **counts the number of rows.**
+
+•	`SUM` returns the **sum of all the values.**
+
+•	`MAX`/`MIN` get the **largest/smallest value**.
+
+•	`AVG` returns the **average value.**
+
+•	`ROUND` **round the values in a *column***.
+
+Aggregate functions **combine multiple rows together to form a single value** of more meaningful information.
+
+•	`GROUP BY` is a clause used with aggregate functions **to combine data from one or more columns**.
+
+•	`HAVING` **limit the results** of a query **based on an aggregate property**.
 
