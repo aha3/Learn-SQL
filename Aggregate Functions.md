@@ -19,7 +19,7 @@ Let's get started!
 1.
 Before getting started, take a look at the data in the fake_apps table.
 In the code editor, type the following:
-```
+```sql
 SELECT * FROM fake_apps;
 What are the column names?
 ```
@@ -27,7 +27,7 @@ What are the column names?
 ## Count
 The fastest way to calculate how many rows are in a table is to use the `COUNT` function.
 `COUNT` is a function that takes the name of a column as an argument and counts the number of non-empty values in that column.
-```
+```sql
 SELECT COUNT(*) 
 FROM table_name;
 ```
@@ -38,7 +38,7 @@ Here, we want to count every row, so we pass `*` **as an argument inside parenth
 1.
 Let's count how many apps are in the database.
 In the code editor, run:
-```
+```sql
 SELECT COUNT(*) 
 FROM fake_apps;
 ```
@@ -48,7 +48,7 @@ FROM fake_apps;
 SQL makes it easy to add all values in a particular column using `SUM`.
 `SUM` is a function that takes the name of a column as an argument and returns the sum of all the values in that column.
 What is the total number of downloads for all of the apps combined?
-```
+```sql
 SELECT SUM(downloads) 
 FROM fake_apps;
 ```
@@ -58,7 +58,7 @@ This adds all values in the downloads column.
 1.
 Let's find out the answer!
 In the code editor, type:
-```
+```sql
 SELECT SUM(downloads) 
 FROM fake_apps;
 ```
@@ -67,7 +67,7 @@ FROM fake_apps;
 
 The `MAX` and `MIN` functions return the highest and lowest values **in a column**, respectively.
 How many downloads does the most popular app have?
-```
+```sql
 SELECT MAX(downloads) 
 FROM fake_apps;
 ```
@@ -81,14 +81,14 @@ Here, we returned the largest value in the downloads column.
 1.
 What is the least number of times an app has been downloaded?
 In the code editor, type:
-```
+```sql
 SELECT MIN(downloads) FROM fake_apps;
 ```
 ## Average
 
 SQL uses the `AVG` function to quickly calculate the **average value of a particular column**.
 The statement below returns the average number of downloads for an app in our database:
-```
+```sql
 SELECT AVG(downloads) 
 FROM fake_apps;
 ```
@@ -97,7 +97,7 @@ The `AVG` function works by taking a column name as an argument and **returns th
 1.
 Calculate the average number of downloads for an app in the database.
 In the code editor, type:
-```
+```sql
 SELECT AVG(downloads) 
 FROM fake_apps;
 ```
@@ -112,7 +112,7 @@ By default, SQL tries to be as precise as possible without rounding. We can make
 •	an integer
 
 It rounds the values in the column **to the number of decimal places specified by the integer**.
-```
+```sql
 SELECT ROUND(price, 0) 
 FROM fake_apps;
 ```
@@ -122,7 +122,7 @@ Here, we pass the column price and integer 0 as arguments. SQL rounds the values
 1.
 Let's return the name column and a rounded pricecolumn.
 In the code editor, type:
-```
+```sql
 SELECT name, ROUND(price, 0) 
 FROM fake_apps;
 ```
@@ -130,13 +130,13 @@ FROM fake_apps;
 2.
 Delete the previous query.
 In the last exercise, we were able to get the average price of an app (2.02365) using:
-```
+```sql
 SELECT AVG(price) 
 FROM fake_apps;
 ```
 
 Write a new query that rounds this result to 2 decimal places.
-```
+```sql
 SELECT ROUND(AVG(price), 2)
  FROM fake_apps;
 ```
@@ -146,7 +146,7 @@ SELECT ROUND(AVG(price), 2)
 Oftentimes, we will want to calculate an aggregate for data with certain characteristics.
 For instance, we might want to know the mean IMDb ratings for all movies each year. 
 We could calculate each number by a series of queries with different WHERE statements, like so:
-```
+```sql
 SELECT AVG(imdb_rating) 
 FROM movies 
 WHERE year = 1999; 
@@ -164,7 +164,7 @@ and so on.
 Luckily, there's a **better way**!
 
 We can use `GROUP BY` to do this in a single step:
-```
+```sql
 SELECT year, AVG(imdb_rating) 
 FROM movies 
 GROUP BY year 
@@ -178,7 +178,7 @@ The `GROUP BY` statement comes **after** any `WHERE` statements, but **before** 
 1.
 Suppose we want to count the total number of apps for each price in the table.
 In the code editor, type:
-```
+```sql
 SELECT price, COUNT(*) 
 FROM fake_apps 
 GROUP BY price;
@@ -187,7 +187,7 @@ Here, our aggregate function is `COUNT` and we arranged price into groups.
 
 2.
 In the previous query, add a `WHERE` clause to count the total number of apps that has been downloaded more than 20,000 times, at each price.
-```
+```sql
 SELECT price, COUNT(*)
 FROM fake_apps
 WHERE downloads > 20000
@@ -196,7 +196,7 @@ GROUP BY price;
 3.
 Remove the previous query.
 Write a new query that calculates the total number of downloads for each category.
-```
+```sql
 SELECT category, SUM(downloads)
 FROM fake_apps
 GROUP BY category;
@@ -205,7 +205,7 @@ GROUP BY category;
 Sometimes, we want to `GROUP BY` a calculation done on a column.
 For instance, we might want to know how many movies have IMDb ratings that round to 1, 2, 3, 4, 5. 
 We could do this using the following syntax:
-```
+```sql
 SELECT ROUND(imdb_rating), COUNT(name) 
 FROM movies 
 GROUP BY ROUND(imdb_rating) 
@@ -224,7 +224,7 @@ SQL lets us use column reference(s) in our GROUP BY that will make our lives eas
 and so on.
 
 The following query is equivalent to the above:
-```
+```sql
 SELECT ROUND(imdb_rating), COUNT(name) 
 FROM movies 
 GROUP BY 1 
@@ -235,7 +235,7 @@ Here, the 1 refers to the first column in our `SELECT statement, ROUND(imdb_rati
 ### Instructions
 1.
 Suppose we have the query below:
-```
+```sql
 SELECT category, price, AVG(downloads) 
 FROM fake_apps 
 GROUP BY category, price;
@@ -252,7 +252,7 @@ We can't use `WHERE` here because we *don't want to filter the rows*; **we want 
 This is where `HAVING` comes in.
 `HAVING` is very similar to `WHERE`. In fact, all types of `WHERE` clauses you learned about thus far can be used with `HAVING`.
 We can use the following for the problem:
-```
+```sql
 SELECT year, genre, COUNT(name) 
 FROM movies 
 GROUP BY 1, 2 
@@ -266,7 +266,7 @@ HAVING COUNT(name) > 10
 
 1.
 Suppose we have the query below:
-```
+```sql
 SELECT price, ROUND(AVG(downloads)) 
 FROM fake_apps 
 GROUP BY price;
@@ -274,7 +274,7 @@ GROUP BY price;
 Certain price points don't have very many apps, so the average is less meaningful.
 
 Add a `HAVING` clause to restrict the query to prices where the total number of apps at that *price point is greater than 9*.
-```
+```sql
 SELECT price,
 	ROUND(AVG(downloads))
  FROM fake_apps
