@@ -328,5 +328,213 @@ yellow		black
 blue		navy
 blue		black
 ```
+This clothing example is fun, but it's not very practically useful. A more common usage of `CROSS JOIN` is **when we need to compare each row of a table to a list of values.**
+
+Let's return to our `newspaper` subscriptions. This table contains two columns that we haven't discussed yet:
+
+•	`start_month`: the first month where the customer subscribed to the print newspaper (i.e., 2 for February)
+
+•	`end_month`: the final month where the customer subscribed to the print newspaper
+
+Suppose we wanted to know how many users were subscribed during each month of the year. For each month (1, 2, 3) we would need to know if a user was subscribed. Follow the steps below to see how we can use a `CROSS JOIN` to solve this problem.
+
+### Instructions
+1.
+Eventually, we'll use a cross join to help us, but first, let's try a simpler problem.
+
+Let's start by counting the number of customers who were subscribed to the newspaper during March (3). Use COUNT(*) to count the number of rows and a WHERE clause to restrict to:
+
+•	start_month less than 3
+
+•	end_month greater than 3.
+
+```sql
+SELECT COUNT(*)
+FROM newspaper
+WHERE start_month < 3 AND end_month > 3;
+```
+> This indicates that their subscription started before March, and ended after March, thus they were subscribed during the month of March.
+
+2.
+The previous query lets us investigate one month at a time. In order to check across all months, we're going to need to use a cross join.
+
+Our database contains another table called `months` which contains the numbers between 1 and 12. Select all columns from the cross join of `newspaper` and `months`.
+
+```sql
+SELECT COUNT(*)
+FROM newspaper
+WHERE start_month < 3 AND end_month > 3;
+
+SELECT *
+FROM newspaper
+CROSS JOIN months;
+```
+3.
+Create a third query where you add a where statement to your cross join. The column `month` should be **greater than start_month, but less than end_month**. This will select all months where a user was subscribed.
+```sql
+SELECT COUNT(*)
+FROM newspaper
+WHERE start_month < 3 AND end_month > 3;
+
+SELECT *
+FROM newspaper
+CROSS JOIN months;
+
+SELECT *
+FROM newspaper
+CROSS JOIN months
+WHERE month > start_month AND month < end_month;
+```
+> For example, if user started their subscription in January (1) and ended it in May (5), the WHERE clause above would select the months in between (i.e. 2, 3, 4)
+
+4.
+Create a final query where you aggregate over each month. Fill in the `???` in the following query:
+```sql
+`SELECT` month, 
+	COUNT(*) as subscribers 
+FROM ??? 
+CROSS JOIN ??? 
+WHERE ??? 
+	AND ??? 
+GROUP BY ???
+```
+```sql
+SELECT months.month,
+	COUNT(*)
+FROM newspaper
+CROSS JOIN months
+WHERE start_month < month
+	AND end_month > month
+GROUP BY months.month;
+```
+## Union
+Sometimes we want to **stack one dataset on top of the other** (with same columns).
+`UNION` allows us to do that.
+
+Suppose we have two tables and they have the same columns:
+```
+table1
+name	email
+Sonny	sonny@foobar.com
+Eric	posture@boy.net
+```
+```
+table2
+name	email
+Chloe	wallflower1991@gsnail.com
+Ned	sk8terboi@lotmail.com
+```
+
+If we combine these two with `UNION`:
+```sql
+SELECT * 
+FROM table1 
+UNION 
+SELECT * 
+FROM table2;
+```
+
+The result would be:
+```
+name	email
+Sonny	sonny@foobar.com
+Eric	posture@boy.net
+Chloe	wallflower1991@gsnail.com
+Ned	sk8terboi@lotmail.com
+```
+SQL has strict rules for appending data:
+•	Tables **must have the same # of columns**.
+
+•	The **columns must have the same data types in the same order as the first table**.
+
+### Instructions
+1.
+Let's return to our newspaper and onlinesubscriptions. We'd like to create one big table with both sets of data. Use `UNION` to combine newspaper and online.
+```sql
+SELECT * 
+FROM newspaper
+UNION
+SELECT *
+FROM online;
+```
+## With
+`WITH` serves a **similar function as the chaining operator (a.k.a. piping) `%>%` in R**.
+
+Often times, we want to **combine two tables, but one of the tables is the result of another calculation.**
+
+Let's return to our magazine order example. Our marketing department might want to know a bit more about our customers. For instance, they might want to know how many magazines each customer subscribes to. We can easily calculate this using our orders table:
+```sql
+SELECT customer_id, 
+	COUNT(subscription_id) as subscriptions 
+FROM orders 
+GROUP BY customer_id;
+```
+This query is good, but a **customer_id isn't terribly useful for our marketing department, they probably want to know the customer's name.**
+
+We want to be able to join the results of this query with our customers table, which will tell us the name of each customer. We can do this by using a `WITH` clause.
+```sql
+WITH previous_results AS ( 
+	SELECT ... 
+) 
+SELECT * 
+FROM previous_results 
+JOIN other_table 
+ON ... = ...;
+```
+•	The `WITH` statement allows us to **perform a separate query** (such as aggregating customer's subscriptions)
+
+•	`previous_results` is the **alias that we will use to reference any columns from the query** inside of the `WITH` clause
+
+•	We can **then go on to join our results** with another table
+
+### Instructions
+1.
+```sql
+SELECT customer_id, 
+	COUNT(subscription_id) as subscriptions 
+FROM orders 
+GROUP BY customer_id
+```
+Place the above query into a `WITH` statement using the alias `previous_query`. Join `previous_query` with `customers` and select the following columns:
+
+•	customers.customer_name
+
+•	previous_query.subscriptions
+```sql
+WITH previous_query AS (
+SELECT customer_id,
+       COUNT(subscription_id) as subscriptions
+FROM orders
+GROUP BY customer_id)
+SELECT customers.customer_name,
+previous_query.subscriptions
+FROM previous_query
+JOIN customers
+	ON customers.customer_id = previous_query.customer_id;
+```
+## Review
+In this lesson, we learned about relationships between tables in relational databases and **how to query information from multiple tables** using SQL.
+
+Let's summarize what we've learned so far:
+
+•	`JOIN` will **combine rows from different tables** if the join condition is true.
+
+•	`LEFT JOIN` will **return every row in the left table**, and if the join condition is not met, **NULL values are used to fill in the columns from the right table**.
+
+•	**Primary key** is a column that serves **a unique identifier for the rows** in the table.
+
+•	**Foreign key** is a **column that contains the primary key to another table**.
+
+•	`CROSS JOIN` lets us **combine all rows of one table with all rows of another table** (this will inevitably repeat some row information, and is likely done when you want to compare each row of a table to a list of values)
+
+•	`UNION` **stacks one dataset on top of another** (tables must have the same number of columns and same data types in the same order).
+
+•	`WITH` **allows us to define a bunch of temporary tables** that can be **used in the final query**.
+
+
+
+
+
+
 
 
