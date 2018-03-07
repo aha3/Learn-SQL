@@ -105,7 +105,9 @@ The `ALTER TABLE` statement **added a new column to the table**. You can use thi
 1. `ALTER TABLE` is a clause that lets you make the specified changes. 
 2. celebs is the name of the table that is being changed. 
 3. `ADD COLUMN` is a clause that lets you add a new column to a table. 
+
 •	`twitter_handle` is the name of the new column being added
+
 •	`TEXT` is the data type for the new column
 
 4. `NULL` is a special value in SQL that represents missing or unknown data. Here, the rows that existed before the column was added have NULL values for twitter_handle.
@@ -163,7 +165,7 @@ CREATE TABLE celebs (
  
 Constraints that add information about how a column can be used are invoked after specifying the data type for a column. They can be used to tell the database to reject inserted data that does not adhere to a certain restriction.
 
-1. `PRIMARY KEY` columns can be used to uniquely identify the row. Attempts to insert a row with an identical value to a row already in the table will result in a constraint violation which will not allow you to insert the new row.
+1. `PRIMARY KEY` columns can be used to uniquely identify the row. Attempts to insert a row with an identical value to a row already in the table will result in a **constraint violation** which will not allow you to insert the new row.
 
 2. `UNIQUE` columns have a different value for every row. This is similar to PRIMARY KEY except a table can have many different UNIQUE columns.
 3. `NOT NULL` columns must have a value. Attempts to insert a row without a value for a NOT NULL column will result in a constraint violation and the new row will not be inserted.
@@ -180,13 +182,21 @@ You've learned six commands commonly used to manage data stored in a relational 
 •	SQL is a programming language designed to manipulate and manage data stored in relational databases.
 
 o	A *relational database* is a database that organizes information into **one or more tables**.
+
 o	A **table** is a collection of *data organized into rows and columns*.
+
 •	A **statement** is a string of characters that the database recognizes as **a valid command**.
+
 o	`CREATE TABLE` **creates a new table.**
+
 o	`INSERT INTO` **adds a new row to a table.**
+
 o	`SELECT` **queries data from a table.**
+
 o	`UPDATE` **edits a row in a table.**
-o	`ALTER TABLE` **changes an existing table (columns).**
+
+o	`ALTER TABLE` **changes an existing table (addds or deletes columns).**
+
 o	`DELETE FROM` **deletes rows from a table**.
 
 
