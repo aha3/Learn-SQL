@@ -1,6 +1,6 @@
-## SQL Queries
+# SQL Queries
 
-### Introduction
+## Introduction
 
 In this lesson, we will be learning different SQL commands to query a single table in a database.
 
@@ -20,11 +20,11 @@ What are the columns?
 
 The columns are id, name, genre, year, and imdb_rating.
 
-### Select
+## Select
 
 Previously, we learned that `SELECT` is used every time you want to query data from a database.
 Suppose we are only interested in two of the columns. We can select individual columns by their names (separated by a comma):
-```
+```sql
 SELECT column1, column2 
 FROM table_name;
 ```
@@ -34,15 +34,15 @@ Instructions
 1.
 Let's only select the name and genre columns of the table.
 In the code editor, type the following:
-```
+```sql
 SELECT name, genre 
 FROM movies;
 ```
 
-### As
+## As
 
 Knowing how `SELECT` works, suppose we have the code below:
-```
+```sql
 SELECT name 
 AS 'Movies' 
 FROM movies;
@@ -53,22 +53,23 @@ It is important to remember that the columns have not been renamed in the table.
 
 Instructions
 1.
-To showcase what the `AS` does, rename the name column with an alias of your choosing, and place it inside the single quotes, like so:
-```
+To showcase what the `AS` does, rename the name column with an alias of your choosing, and **place it inside the single quotes**, like so:
+```sql
 SELECT name 
 AS '______' 
 FROM movies;
 ```
 Note in the result, that the name of the column is now your alias.
 
-### Distinct
+## Distinct
+`DISTINCT` is equivalent to `unique()` in R.
 
 When we are examining data in a table, it can be helpful to know what distinct values exist in a particular column.
 `DISTINCT` is used to return unique values in the output. It filters out all duplicate values in the specified column(s).
 For instance,
 `SELECT tools FROM inventory;`
 might produce:
-```
+```sql
 tools
 Hammer
 Nails
@@ -79,7 +80,7 @@ Nails
 By adding `DISTINCT` before the column name,
 `SELECT DISTINCT tools FROM inventory;`
 the result would now be:
-```
+```sql
 tools
 Hammer
 Nails
@@ -87,18 +88,19 @@ Nails
 
 **Filtering the results of a query is an important skill in SQL.** It is easier to see the different possible genres in the movie table after the data has been filtered than to scan every row in the table.
 
-Instructions
+### Instructions
 1.
 Let's try it out. In the code editor, type:
+
 `SELECT DISTINCT genre FROM movies;`
 
 What are the different genres?
 
-### Where
+## Where
 
 We can restrict our query results using the `WHERE` clause in order to obtain only the information we want.
 Following this format, the statement below filters the result set to only include top rated movies (IMDb ratings greater than 8):
-```
+```sql
 SELECT * FROM movies 
 WHERE imdb_rating > 8;
 ```
@@ -106,27 +108,37 @@ How does it work?
 1. `WHERE` clause filters the result set to include only rows where the following condition is true.
 2. `imdb_rating > 8` is the condition. Here, only rows with a value greater than 8 in the imdb_rating column will be returned.
 > is an operator. Operators create a condition that can be evaluated as either   .
-Comparison operators used with the WHERE clause are:
+Comparison operators used with the `WHERE` clause are:
+
 •	`=` equal to
+
 •	`!=` not equal to
+
 •	`>` greater than
+
 •	`<` less than
+
 •	`>=` greater than or equal to
+
 •	`<=` less than or equal to
+
 There are also some special operators that we will learn more about in the upcoming exercises.
+
 1.
 Suppose we now want take a peek at all the not-so-well received movies in the database.
 In the code editor, type:
+
 `SELECT * FROM movies WHERE imdb_rating < 5;`
 
-### Like i
+## Like i
 `LIKE` has **nothing to do with Facebook.**
+
 `LIKE` can be a useful operator when you want to compare similar values.
-The movies table contains two films with similar titles, 'Se7en' and 'Seven'.
+The `movies` table contains two films with similar titles, 'Se7en' and 'Seven'.
 How could we select all movies that start with 'Se' and end with 'en' and have exactly one character in the middle?
 `SELECT * FROM movies WHERE name LIKE 'Se_en';`
 
-1. `LIKE` is a special operator used with the WHERE clause to search for a specific pattern in a column.
+1. `LIKE` is a special operator used with the `WHERE` clause to search for a specific pattern in a column.
 
 2.`name LIKE 'Se_en'` is a condition evaluating the name column for a specific pattern.
 
@@ -137,31 +149,38 @@ Instructions
 1.
 Let's test it out.
 In the code editor, type:
+
 `SELECT * FROM movies WHERE name LIKE 'Se_en';`
 
-### Like ii
-The percentage sign `%` is another wildcard character that can be used with `LIKE`.
+## Like ii
+The percentage sign `%` is another **wildcard character** that can be used with `LIKE`.
 This statement below filters the result set to only include movies with names that begin with the letter 'A':
 `SELECT * FROM movies WHERE name LIKE 'A%';`
 
 `%` is a wildcard character that matches zero or more missing letters in the pattern. For example:
+
 •	`A%` matches all movies with names that begin with letter 'A'
+
 •	`%a` matches all movies that end with 'a'
+
 We can also use `%` both before and after a pattern:
+
 `SELECT * FROM movies WHERE name LIKE '%man%';`
+
 Here, any movie that contains the word 'man' in its name will be returned in the result.
+
 `LIKE` is **not case sensitive**. 'Batman' and 'Man of Steel' will both appear in the result of the query above.
 
 Instructions
 1.
 In the text editor, type:
-```
+```sql
 SELECT * FROM movies WHERE name LIKE '%man%';
 ```
 
 How many movie titles contain the word 'man'?
 
-### Is Null
+## Is Null
 
 By this point of the lesson, you might have noticed that there are a few missing values in the movies table. More often than not, the data you encounter will have missing values.
 Unknown values are indicated by `NULL`.
@@ -177,18 +196,19 @@ To filter for all movies with an IMDb rating:
 
 `SELECT name FROM movies WHERE imdb_rating IS NOT NULL;`
 
-Instructions
+### Instructions
 1.
 Now let's do the opposite.
 Write a query to find all the movies without an IMDb rating!
 
-```
+```sql
 SELECT name FROM movies WHERE imdb_rating IS NULL;
 ```
 
-### Between
-The `BETWEEN` operator can be used in a `WHERE` clause to filter the result set within a certain range. The values can be numbers, text or dates.
-This statement filters the result set to only include movies with names that begin with letters 'A' up to but not including 'J'.
+## Between
+The `BETWEEN` operator can be used in a `WHERE` clause to filter the result set within a certain range. The **values can be numbers, text or dates**.
+
+This statement filters the result set to only include movies with names that begin with letters 'A' up to **but not including** 'J'.
 
 `SELECT * FROM movies WHERE name BETWEEN 'A' AND 'J';`
 
@@ -203,40 +223,45 @@ Really interesting point to emphasize again:
 
 •	`BETWEEN` two numbers **is inclusive.**
 
-Instructions
+### Instructions
 1.
 Using the `BETWEEN` operator, write a query that selects all rows where the movie titles that begin with letters 'D' up to but not including 'G'.
 
-### And
+## And
 
 Sometimes we want to combine multiple conditions in a `WHERE` clause to make the result set more specific and useful.
 
 One way of doing this is to use the `AND` operator. Here, we use the `AND` operator to only return 90's romance movies.
 `SELECT * FROM movies WHERE year BETWEEN 1990 AND 1999 AND genre = 'romance';`
+
 •	`year BETWEEN 1990 AND 1999` is the 1st condition.
+
 •	`genre = 'romance'` is the 2nd condition.
+
 •	`AND` combines the two conditions.
  
 With `AND`, both conditions must be true for the row to be included in the result.
-Instructions
+
+### Instructions
 1.
 In the previous exercise, we retrieved every movie released in the 1970's.
 Now, let's retrieve every movie released in the 70's, that's also well received.
 In the code editor, type:
-
-`SELECT * FROM movies WHERE year BETWEEN 1970 AND 1979 AND imdb_rating > 8;`
+```sql
+SELECT * FROM movies WHERE year BETWEEN 1970 AND 1979 AND imdb_rating > 8;
+```
 
 2.
 Suppose we have a picky friend who only wants to watch old horror films.
 Using `AND`, write a new query that selects all movies made prior to 1985 that are also in the horrorgenre.
 
-```
+```sql
 select * from movies 
 where year < 1985
 and genre = 'horror';
 ```
 
-### Or
+## Or
 
 Similar to `AND`, the `OR` operator can also be used to combine multiple conditions in WHERE, but there are some fundamental differences.
 
@@ -254,14 +279,14 @@ Let's test this out:
 `SELECT * FROM movies WHERE year > 2014 OR genre = 'action';`
 
 
-### Order By
+## Order By
 
 That's it with `WHERE` and its operators. Moving on!
 
 It is often useful to list the data in our result set in a particular order.
 We can sort the results using `ORDER BY`, either alphabetically or numerically. Sorting the results often makes the data more useful and easier to analyze.
 For example, if we want to sort everything by the movie's title from A through Z:
-```
+```sql
 SELECT * FROM movies 
 ORDER BY name;
 ```
@@ -307,11 +332,11 @@ FROM movies
 ORDER BY imdb_rating DESC;
 ```
 
-### Limit
+## Limit
 
 We've been working with a fairly small table (230 rows), but most SQL tables contain hundreds of thousands of records. In those situations, it becomes important to cap the number of rows in the result.
 For instance, imagine that we just want to see a few examples of records.
-```
+```sql
 SELECT * FROM movies LIMIT 5;
 ```
 `LIMIT` is a clause that lets you specify the maximum number of rows the result set will have. This saves space on our screen and makes our queries run faster.
@@ -321,14 +346,14 @@ Here, we specify that the result set can't have more than five rows.
 1.
 Combining your knowledge of `LIMIT` and `ORDER BY`, write a query that returns the top three highest rated movies.
 
-```
+```sql
 select * from movies order by imdb_rating DESC limit 3;
 ```
 
-### Case
+## Case
 A `CASE` statement allows us to create different outputs (usually in the SELECT statement). It is SQL's way of handling if/then logic.
 Suppose we want to condense the ratings in movies to just 'Good', 'Okay', and 'Bad':
-```
+```sql
 SELECT name, 
       CASE 
 	WHEN imdb_rating > 7 THEN 'Good' 
@@ -339,9 +364,13 @@ FROM movies;
 ```
 
 •	Each `WHEN` tests a condition.
+
 •	The following `THEN` gives us the string if the condition is true.
+
 •	`CASE` statement **must end with** `END`.
+
 •	The `ELSE` gives us the string if all the above WHEN clauses evaluate to false.
+
 Here, we set all movies above 7 as 'Good', movies above 5 as 'Okay', and the rest as 'Bad'.
 Instructions
 1.
@@ -362,15 +391,21 @@ We just learned how to query data from a database using SQL. We also learned how
 Let's summarize what we've learned so far:
 
 •	`SELECT` is the clause we use **every time we want to query information from a database**.
+
 •	`AS` **renames a column or table**.
+
 •	`DISTINCT` return **unique values**.
 
 •	`WHERE` is a popular command that lets you **filter the results of the query** based on conditions that you specify.
+
 •	`LIKE` and `BETWEEN` are special operators.
+
 •	`AND` and `OR` **combines multiple conditions**.
 
 •	`ORDER BY` **sorts the result**. Use `DESC` to sort by *descending order* (after sorting variable) or use `ASC` to sort by *ascending order*
+
 •	`LIMIT` specifies the **maximum number of rows** that the query will return.
+
 •	`CASE` **creates different outputs**.
 
 
