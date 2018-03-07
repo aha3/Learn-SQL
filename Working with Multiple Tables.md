@@ -229,6 +229,13 @@ FROM newspaper
 LEFT JOIN online
 ON newspaper.id = online.id;
 ```
+```sql
+SELECT *
+FROM newspaper
+LEFT JOIN online
+ON newspaper.id = online.id
+WHERE online.id IS NULL;
+```
 
 ## Primary Key vs Foreign Key
 
@@ -252,7 +259,7 @@ These special columns are called **primary keys**. Primary keys have a few requi
 •	A table **can not have more than one primary key column**
 
 Let's reexamine the orders table:
-
+```
 order_id	customer_id	subscription_id	purchase date
 
 1		2		3		2017-01-01
@@ -260,12 +267,66 @@ order_id	customer_id	subscription_id	purchase date
 2		2		2		2017-01-01
 
 3		3		1		2017-01-01
+```
+
+Note that customer_id (the primary key for customers) and subscription_id (the primary key for subscriptions) both appear in orders.
+When the primary key for one table appears in a different table, it is called a **foreign key**. So customer_id is a primary key when it appears in customers, but a foreign key when it appears in orders.
+
+In this example, our primary keys all had somewhat descriptive names. Generally, the primary key will just be called id. Foreign keys will have more descriptive names.
+
+Why is this important? 
+
+**The most common types of joins will be joining a foreign key from one table with the primary key from another table**. For instance, when we join ordersand customers, we join on customer_id, which is a foreign key in orders and the primary key in customers.
+
+### Instructions
+1.
+A certain online coding school has two tables in their database:
+
+•	`classes` contains information on the classes that the school offers. Its primary key is id
+
+•	`students` contains information on all students in the school. Its primary key is id. It contains the foreign key class_id, which corresponds to the primary key of classes.
+
+Perform an inner join of classes and students using the primary and foreign keys described above, and select all columns.
 
 ```sql
 SELECT *
-FROM newspaper
-LEFT JOIN online
-ON newspaper.id = online.id
-WHERE online.id IS NULL;
+FROM classes
+JOIN students
+ON classes.id = students.class_id;
 ```
+
+## Cross Join
+So far, we've focused on matching rows that have some information in common.
+
+Sometimes, we just want to combine all rows of one table with all rows of another table.
+
+For instance, if we had a table of shirts that described different shirts we own, and another table called pants that described different pants that we owned, we might want to know all possible combinations of shirts and pants to create outfits.
+
+Our code might look like this:
+```sql
+SELECT shirts.shirt_color, 
+	pants.pant_color 
+FROM shirts 
+CROSS JOIN pants;
+```
+
+•	The **first two lines select the columns** shirt_colorand pant_color
+
+•	The **third line pulls data from the table** shirts
+
+•	The **fourth line performs a CROSS JOIN** with pants
+
+Notice that cross joins don't require an `ON` statement. **You're not really joining on any columns!**
+
+If we have three different shirts (red, yellow, and blue) and two different pants (navy and black), the results might look like this:
+```
+shirt_color	pant_color
+red		navy
+red		black
+yellow		navy
+yellow		black
+blue		navy
+blue		black
+```
+
 
