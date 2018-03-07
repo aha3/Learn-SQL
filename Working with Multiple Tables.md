@@ -532,7 +532,9 @@ Let's summarize what we've learned so far:
 •	`WITH` **allows us to define a bunch of temporary tables** that can be **used in the final query**.
 
 
+## A Visual Representation of `JOIN`'s in SQL
 
+![visual_of_sql_joins](https://user-images.githubusercontent.com/33429899/37097315-653ef6fc-221b-11e8-81ca-6f84414e7609.jpg)
 
 
 
