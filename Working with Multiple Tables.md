@@ -74,3 +74,65 @@ SELECT * FROM customers;
 
 ## Combining Tables Manually
 
+Let's return to our magazine company. Suppose we have the three tables described in the previous exercise. 
+The tables are shown in the far right panel.
+If we just look at the orders table, we can't really tell what's happened in each order. However, if we refer to the other tables, we can get a more complete picture.
+
+Let's examine the order with an order_id of 2. It was purchased by customer 2. To find out the customer's name, we look at the customers table and look for the item with a customer_id value of 2. We can see that Customer 2's name is Jane Doe and that she lives at 456 Park Ave.
+
+Doing this kind of matching is called **joining** two Tables.
+
+### Instructions
+1.
+Using the tables displayed, what is the description of the magazine ordered in order 1?
+Type your answer on line 1 of the code editor. Be sure to capitalize it the same as in the table.
+
+## Combining Tables with SQL
+
+Combining tables manually is **time-consuming**. Luckily, SQL gives us an easy sequence for this: it's called a `JOIN`.
+
+If we want to combine orders and customers, we would type:
+```sql
+SELECT * 
+FROM orders 
+JOIN customers 
+ON orders.customer_id = customers.customer_id
+```
+
+Let's break down this command:
+1.	The first line **selects all columns** from our combined table. If we only want to select certain columns, we can specify which ones we want.
+2.	The second line **specifies the first table** that we want to look in, orders
+3.	The third line uses `JOIN` to say that we want to **combine information from orders with customers**.
+4.	The fourth line tells us **how to combine the two tables**. We want to match customer_id from orders with customer_id from customers.
+
+Because column names are often repeated across multiple tables we use the syntax `table_name.column_name` **to be sure that our requests for columns are unambiguous**. In our example, we use this syntax in the `ON` statement, but we will also use it in the `SELECT` or any other statement where we refer to column names.
+
+For example, if we only wanted to select the order_id from orders and the customer_name from customers, we could use the following query:
+```sql
+SELECT orders.order_id, customers.customer_name 
+FROM orders 
+JOIN customers 
+ON orders.customer_id = customers.customer_id
+```
+### Instructions
+1.
+Join orders and subscriptions and select all columns. Make sure to join on subscription_id.
+
+```sql
+SELECT *
+FROM orders
+JOIN subscriptions
+	ON orders.subscription_id = subscriptions.subscription_id;
+  ```
+2.
+Add a second query after your first one that only selects rows from the join where description is equal to 'Fashion Magazine'.
+
+```sql
+SELECT *
+FROM orders
+JOIN subscriptions
+	ON orders.subscription_id = subscriptions.subscription_id
+WHERE subscriptions.description = 'Fashion Magazine';
+```
+
+
