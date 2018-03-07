@@ -107,7 +107,8 @@ WHERE imdb_rating > 8;
 How does it work?
 1. `WHERE` clause filters the result set to include only rows where the following condition is true.
 2. `imdb_rating > 8` is the condition. Here, only rows with a value greater than 8 in the imdb_rating column will be returned.
-\`>` is an operator. Operators create a condition that can be evaluated as either   .
+\> is an **operator**. Operators create a condition that can be evaluated as either `TRUE` or `FALSE`.
+
 Comparison operators used with the `WHERE` clause are:
 
 •	`=` equal to
